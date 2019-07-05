@@ -1,7 +1,6 @@
 package com.century.db;
 
-import lombok.Data;
-
+import lombok.NonNull;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,7 +33,7 @@ public class PgDbService {
         return statement;
     }
 
-    public boolean checkKonnetkorRecoverLogTable(@NotNull Statement statement) throws SQLException {
+    public boolean checkKonnetkorRecoverLogTable(@NonNull Statement statement) throws SQLException {
         ResultSet resultSet = null;
         try {
             resultSet = statement.executeQuery(checkLogTableExistQuery);
@@ -49,7 +48,7 @@ public class PgDbService {
         return result == 1;
     }
 
-    public void insertKonnektorRecoverLog(@NotNull Statement statement, int result) {
+    public void insertKonnektorRecoverLog(@NonNull Statement statement, int result) {
         String insertNewLogResult = "INSERT INTO logging.konnektor_recover_job_log (result) VALUES (" + result + ");";
         try {
             statement.execute(insertNewLogResult);

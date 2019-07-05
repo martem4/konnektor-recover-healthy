@@ -9,9 +9,29 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    classpath('org.projectlombok:lombok:1.18.6')
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.century.Main"
+    }
+
+    from {
+        configurations.compile.collect {it.isDirectory()?it:zipTree(it)}
+    }
+}
+
+task createFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.century.Main'
+    }
+    baseName = 'desokJar'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
